@@ -12,8 +12,4 @@ public class RedBlock : InteractableBase {
         rb.velocity = direction * dragSpeedMultiplier;
     }
 
-    public override void OnObjectRelease() {
-        base.OnObjectRelease();
-    }
-
 }

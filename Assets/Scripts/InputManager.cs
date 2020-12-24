@@ -2,13 +2,21 @@
 using System.Collections;
 using WiimoteApi;
 
+public enum InputMode { Wiimote, MouseKeyboard };
+public enum Button { A, B, Up, Down, Left, Right, Plus, Minus, Home, One, Two, Z, C };
+public enum Command { Jump, SelectObj, SelectUI }
+public enum Axis { Horizontal, Vertical }
+
+/// <summary>
+/// Custom input manager that takes into account both Wii remotes and the mouse + keyboard
+/// </summary>
 public class InputManager : MonoBehaviour {
 
-    public enum InputMode {Wiimote, MouseKeyboard};
-	public static InputManager instance;
-    public static Wiimote wiimote;
-
     public InputMode mode;
+
+    public static InputManager instance;
+    public static Wiimote wiimote;
+    private WiimoteGetButton getButton;
 
     [Header("Object References")]
     [HideInInspector] public WiimoteSetup wiimoteSetup;
@@ -22,6 +30,12 @@ public class InputManager : MonoBehaviour {
     private Vector3 prevAccelValue;
     private float[] prevAccelAngles = new float[5];
 
+    // -----------------------------------------------------------------------------------------------------------
+
+    private void Awake() {
+        getButton = GetComponent<WiimoteGetButton>();
+    }
+
     private void Start() {
         cam = Camera.main; // TODO - update dynamically with scene
     }
@@ -31,8 +45,12 @@ public class InputManager : MonoBehaviour {
     private void Update() {
         // Find wiimote
         if(!WiimoteManager.HasWiimote()) {
-            if(!wiimoteSetup.FindWiimote())
-                return; // Exit if no wiimote found
+            // Remove cursor and exit if no wiimote found
+            if(!wiimoteSetup.FindWiimote()) {
+                pointer.anchorMax = new Vector2(-1f, -1f);
+                pointer.anchorMin = new Vector2(-1f, -1f);
+                return;
+            }
         }
 
         // ---
@@ -53,18 +71,104 @@ public class InputManager : MonoBehaviour {
 
         // ---
 
+        // Stop if using keyboard controls
+        // (Can still use pointer for menus, but other functions aren't needed)
+        if (mode == InputMode.MouseKeyboard)
+            return;
+
+        // ---
+
         // Shake
         if(Time.frameCount % 2 == 0) { // Every 2 frames
-
+            CalculateShake();
         }
     }
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    #region Get Universal Inputs
+    /// Returns the proper button input for the command, given the current input mode
+
+    public bool GetCommandDown(Command command) {
+        // UI happens irrelevant of mode
+        if(command == Command.SelectUI)
+            return GetWiimoteButtonDown(Button.A) || Input.GetMouseButtonDown(0);
+
+        // Wiimote
+        if(mode == InputMode.Wiimote) {
+            if(command == Command.Jump)
+                return GetWiimoteButtonDown(Button.A);
+            else if(command == Command.SelectObj)
+                return GetWiimoteButtonDown(Button.B);
+            else
+                return false;
+        } else { // Mouse and keyboard
+            if(command == Command.Jump)
+                return Input.GetKeyDown(KeyCode.Space);
+            else if(command == Command.SelectObj)
+                return Input.GetMouseButtonDown(0);
+            else
+                return false;
+        }
+    }
+
+    public bool GetCommandUp(Command command) {
+        // UI happens irrelevant of mode
+        if(command == Command.SelectUI)
+            return GetWiimoteButtonUp(Button.A) || Input.GetMouseButtonUp(0);
+
+        // Wiimote
+        if(mode == InputMode.Wiimote) {
+            if(command == Command.Jump)
+                return GetWiimoteButtonUp(Button.A);
+            else if(command == Command.SelectObj)
+                return GetWiimoteButtonUp(Button.B);
+            else
+                return false;
+        } else { // Mouse and keyboard
+            if(command == Command.Jump)
+                return Input.GetKeyUp(KeyCode.Space);
+            else if(command == Command.SelectObj)
+                return Input.GetMouseButtonUp(0);
+            else
+                return false;
+        }
+    }
+
+    public float GetAxis(Axis axis) {
+        if(mode == InputMode.Wiimote)
+            return GetNunchuckAxis(axis);
+        else
+            return Input.GetAxis(axis.ToString());
+    }
+
+    #endregion
+
+    // ------------------------
+
+    #region Get Wiimote Buttons
+    /// Equivalent of Input.GetButton and its variants, but for the wii remote
+
+    public bool GetWiimoteButton(Button button) {
+        return getButton.GetCorrespondingWiimoteButton(button);
+    }
+
+    public bool GetWiimoteButtonDown(Button button) {
+        return getButton.buttonDown[button];
+    }
+
+    public bool GetWiimoteButtonUp(Button button) {
+        return getButton.buttonUp[button];
+    }
+
+    #endregion
 
     // -----------------------------------------------------------------------------------------------------------
 
     #region Pointer
 
     /// <summary>
-    /// Returns a lerped/stabilized position for the pointer
+    /// Returns a lerped/stabilized position for the wiimote pointer
     /// </summary>
     /// <param name="basePos">The pointer's current position</param>
     /// <param name="newPos">The position the pointer is attempting to go towards</param>
@@ -78,15 +182,18 @@ public class InputManager : MonoBehaviour {
         return newPos;
     }
     
+    // -------------
+
     /// <summary>
     /// Returns the world position corresponding to the pointer with the given offset
     /// </summary>
     /// <param name="forwardOffset">Units forward from the camera the world position is</param>
     public Vector3 PointerToWorldPos(float forwardOffset) {
-        if(pointer.anchorMin == new Vector2(-1f, -1f))
+        if(!PointerOnScreen())
             return Vector3.zero;
 
-        return cam.ViewportToWorldPoint(new Vector3(pointer.anchorMin.x, pointer.anchorMin.y, forwardOffset));
+        Vector2 pointerPos = GetPointerViewportPos();
+        return cam.ViewportToWorldPoint(new Vector3(pointerPos.x, pointerPos.y, forwardOffset));
     }
 
     /// <summary>
@@ -95,7 +202,8 @@ public class InputManager : MonoBehaviour {
     /// <param name="mask">The LayerMask used for the detection raycast</param>
     /// <param name="maxDistance">Maximum distance to check</param>
     public GameObject SelectedObject(LayerMask mask, float maxDistance = 15f) {
-        Vector3 pointerPos = cam.ViewportToWorldPoint(new Vector3(pointer.anchorMin.x, pointer.anchorMin.y, Camera.main.nearClipPlane));
+        Vector2 viewportPos = GetPointerViewportPos();
+        Vector3 pointerPos = cam.ViewportToWorldPoint(new Vector3(viewportPos.x, viewportPos.y, Camera.main.nearClipPlane));
         Vector3 direction = (pointerPos - cam.transform.position).normalized;
 
         RaycastHit hit;
@@ -106,10 +214,41 @@ public class InputManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Returns the pointer or mouse's viewport position, depending on the input mode
+    /// </summary>
+    private Vector2 GetPointerViewportPos() {
+        if(mode == InputMode.Wiimote)
+            return pointer.anchorMin;
+        else
+            return GetMouseToViewportPosition();
+    }
+
+    /// <summary>
     /// Returns whether or not the pointer is currently on screen
     /// </summary>
     public bool PointerOnScreen() {
-        return pointer.anchorMax[0] != -1f;
+        if(mode == InputMode.Wiimote)
+            return pointer.anchorMax[0] != -1f;
+        else {
+            Vector2 mousePos = GetMouseToViewportPosition();
+            return mousePos.x >= 0 && mousePos.x <= 1;
+        }
+    }
+
+    #endregion
+
+    // ------------------------
+
+    #region Mouse-Specific
+
+    /// <summary>
+    /// Returns the mouse's position on the screen, from the range (0f, 1f) inclusive on both axes
+    /// </summary>
+    private Vector2 GetMouseToViewportPosition() {
+        Vector2 mousePos = Input.mousePosition;
+        mousePos.x /= Screen.width;
+        mousePos.y /= Screen.height;
+        return mousePos;
     }
 
     #endregion
@@ -190,7 +329,7 @@ public class InputManager : MonoBehaviour {
     /// Returns a value from -1.0f to 1.0f, representing the joystick's position in the given axis
     /// </summary>
     /// <param name="axis">The axis the check for, either "Horizontal" or "Vertical"</param>
-    public float GetNunchuckAxis(string axis) {
+    public float GetNunchuckAxis(Axis axis) {
         if(wiimote.current_ext != ExtensionController.NUNCHUCK) {
             Debug.LogError("Nunchuck not detected");
             return 0;
@@ -199,10 +338,10 @@ public class InputManager : MonoBehaviour {
         NunchuckData data = wiimote.Nunchuck;
         int value = 0;
         switch(axis) {
-            case "Horizontal":
+            case Axis.Horizontal:
                 value = data.stick[0]; // General range is 35-228
                 break;
-            case "Vertical":
+            case Axis.Vertical:
                 value = data.stick[1]; // General range is 27-220
                 break;
             default:
@@ -220,7 +359,7 @@ public class InputManager : MonoBehaviour {
             return 0f;
 
         // Set horizontal to similar range as vertical
-        if(axis == "Horizontal")
+        if(axis == Axis.Horizontal)
             value -= 8;
 
         // Check for upper/lower bounds

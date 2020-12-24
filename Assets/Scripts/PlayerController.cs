@@ -7,18 +7,19 @@ public class PlayerController : MonoBehaviour {
     private InteractableBase interactable;
 
     private void Update() {
-        if(InputManager.instance.mode == InputManager.InputMode.Wiimote && InputManager.wiimote == null) // No wiimote
+        if(InputManager.instance.mode == InputMode.Wiimote && InputManager.wiimote == null) // No wiimote
             return;
 
         // ---
 
-        if(!heldObject) { // Look for object
+        // Look for object
+        if(!heldObject) { 
             // Find selected object
             GameObject selectedObj = InputManager.instance.SelectedObject(LayerMask.GetMask("Default"));
             // TODO - shader set while hovering over
 
             // If button pressed, pick up object
-            if(selectedObj != null && InputManager.wiimote.Button.b) {
+            if(selectedObj != null && InputManager.instance.GetCommandDown(Command.SelectObj)) {
                 interactable = selectedObj.GetComponent<InteractableBase>();
                 if(interactable) {
                     heldObject = selectedObj;
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour {
             }
         } else {
             // If button is released while object is held, release it
-            if(!InputManager.wiimote.Button.b)
+            if(InputManager.instance.GetCommandUp(Command.SelectObj))
                 ReleaseObject();
 
             // Check if object released itself
