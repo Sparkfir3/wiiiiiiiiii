@@ -9,8 +9,7 @@ public class RedBlock : InteractableBase {
     [SerializeField] private float dragSpeedMultiplier;
 
     protected override void WhileObjectHeld() {
-        float offsetFromCamera = GetOffsetFromCamera();
-        Vector3 direction = InputManager.instance.PointerToWorldPos(offsetFromCamera) - transform.position;
+        Vector3 direction = GetPositionFromPointer() - transform.position;
         rb.velocity = direction * dragSpeedMultiplier;
     }
 

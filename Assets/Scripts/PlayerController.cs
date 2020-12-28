@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
                 interactable = selectedObj.GetComponent<InteractableBase>();
                 if(interactable) {
                     heldObject = selectedObj;
-                    interactable.held = true;
+                    interactable.OnObjectGrab();
                 }
             }
         } else {

@@ -183,37 +183,8 @@ public class InputManager : MonoBehaviour {
             return Vector2.Lerp(basePos, newPos, 0.7f);
         return newPos;
     }
-    
+
     // -------------
-
-    /// <summary>
-    /// Returns the world position corresponding to the pointer with the given offset
-    /// </summary>
-    /// <param name="forwardOffset">Units forward from the camera the world position is</param>
-    public Vector3 PointerToWorldPos(float forwardOffset) {
-        if(!PointerOnScreen())
-            return Vector3.zero;
-
-        Vector2 pointerPos = GetPointerViewportPos();
-        return cam.ViewportToWorldPoint(new Vector3(pointerPos.x, pointerPos.y, forwardOffset));
-    }
-
-    /// <summary>
-    /// Returns the current object the pointer is aiming at
-    /// </summary>
-    /// <param name="mask">The LayerMask used for the detection raycast</param>
-    /// <param name="maxDistance">Maximum distance to check</param>
-    public GameObject SelectedObject(LayerMask mask, float maxDistance = 15f) {
-        Vector2 viewportPos = GetPointerViewportPos();
-        Vector3 pointerPos = cam.ViewportToWorldPoint(new Vector3(viewportPos.x, viewportPos.y, Camera.main.nearClipPlane));
-        Vector3 direction = (pointerPos - cam.transform.position).normalized;
-
-        RaycastHit hit;
-        if(Physics.Raycast(cam.transform.position, direction, out hit, maxDistance)) {
-            return hit.collider.gameObject;
-        }
-        return null;
-    }
 
     /// <summary>
     /// Returns the pointer or mouse's viewport position, depending on the input mode
@@ -223,6 +194,32 @@ public class InputManager : MonoBehaviour {
             return pointer.anchorMin;
         else
             return GetMouseToViewportPosition();
+    }
+
+    /// <summary>
+    /// Returns the direction vector of the pointer relative to the camera
+    /// </summary>
+    public Vector3 GetPointerDirectionVector() {
+        Vector2 viewportPos = GetPointerViewportPos();
+        Vector3 pointerPos = cam.ViewportToWorldPoint(new Vector3(viewportPos.x, viewportPos.y, Camera.main.nearClipPlane));
+        return (pointerPos - cam.transform.position).normalized;
+    }
+
+    // ---
+
+    /// <summary>
+    /// Returns the current object the pointer is aiming at
+    /// </summary>
+    /// <param name="mask">The LayerMask used for the detection raycast</param>
+    /// <param name="maxDistance">Maximum distance to check</param>
+    public GameObject SelectedObject(LayerMask mask, float maxDistance = 15f) {
+        Vector3 direction = GetPointerDirectionVector();
+
+        RaycastHit hit;
+        if(Physics.Raycast(cam.transform.position, direction, out hit, maxDistance)) {
+            return hit.collider.gameObject;
+        }
+        return null;
     }
 
     /// <summary>
