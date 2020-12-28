@@ -12,6 +12,8 @@ public enum Axis { Horizontal, Vertical }
 /// </summary>
 public class InputManager : MonoBehaviour {
 
+#pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
+
     public InputMode mode;
 
     public static InputManager instance;

@@ -6,6 +6,8 @@ using System.Text;
 
 public class HIDapi {
 
+#pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
+
     [DllImport("hidapi")]
     public static extern int hid_init();
 

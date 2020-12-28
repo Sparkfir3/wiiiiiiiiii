@@ -4,7 +4,9 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public static GameManager gm;
+#pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
+
+    public static GameManager gm;
     
     [Header("Object References")]
     [SerializeField] private GameObject cursorCanvas;

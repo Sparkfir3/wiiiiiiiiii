@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class InteractableBase : MonoBehaviour {
 
-	public bool held;
+    public bool held;
     public bool releaseIfPointerOffScreen;
 
     protected Rigidbody rb;
