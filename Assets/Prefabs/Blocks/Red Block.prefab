@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2360688}
   - component: {fileID: 5486544}
   - component: {fileID: 11411858}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Red Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}

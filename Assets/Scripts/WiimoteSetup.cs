@@ -5,7 +5,8 @@ using WiimoteApi;
 public class WiimoteSetup : MonoBehaviour {
 
     public bool FindWiimote() {
-        Debug.Log("Finding wiimote...");
+        if(InputManager.instance.mode == InputMode.Wiimote)
+            Debug.Log("Finding wiimote...");
         WiimoteManager.FindWiimotes();
 
         if(WiimoteManager.HasWiimote()) {

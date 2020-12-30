@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
         // Look for object
         if(!heldObject) { 
             // Find selected object
-            GameObject selectedObj = InputManager.instance.SelectedObject(LayerMask.GetMask("Default"));
+            GameObject selectedObj = InputManager.instance.SelectedObject(LayerMask.GetMask("Block"));
             // TODO - shader set while hovering over
 
             // If button pressed, pick up object
