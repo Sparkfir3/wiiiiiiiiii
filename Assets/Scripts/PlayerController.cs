@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private bool jumpFlag; // Serialized for testing
     [SerializeField] private bool grounded; // Declared ONLY for viewing in inspector
     private CharacterController controller;
+    private Rigidbody rb;
 
     [Header("Object Control")]
     private GameObject heldObject;
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour {
     private static LayerMask blockMask;
 
     private void Awake() {
-        controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
         if(maxFallSpeed < 0)
             maxFallSpeed *= -1f;
         jumpFlag = false;
@@ -85,11 +86,14 @@ public class PlayerController : MonoBehaviour {
             newVelocity.y = jumpStrength;
             jumpFlag = false;
         } else {
-            newVelocity.y = Mathf.Clamp(controller.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
+            //newVelocity.y = Mathf.Clamp(controller.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
+            newVelocity.y = Mathf.Clamp(rb.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
         }
-        controller.Move(newVelocity * Time.deltaTime);
+        //controller.Move(newVelocity * Time.deltaTime);
+        rb.velocity = newVelocity;
+        Debug.Log(rb.velocity + " /// " + newVelocity);
 
-        grounded = controller.isGrounded;
+        //grounded = controller.isGrounded;
     }
 
     #endregion
@@ -114,7 +118,7 @@ public class PlayerController : MonoBehaviour {
     /// Returns the player's current gravity as a float value
     /// </summary>
     private float FindGravity() {
-        if(controller.velocity.y > 0) {
+        if(rb.velocity.y > 0) {
             if(InputManager.instance.GetCommand(Command.Jump)) {
                 return floatGravity;
             } else {
