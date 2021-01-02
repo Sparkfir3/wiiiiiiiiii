@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class InteractableBase : MonoBehaviour {
 
+    [HideInInspector] public PlayerController player;
     public bool held;
 
     [Header("Generic Block Settings")]
@@ -128,6 +129,7 @@ public abstract class InteractableBase : MonoBehaviour {
     protected void ClampPosition() {
         if(!restrictedBounds)
             return;
+
         transform.position = new Vector3(
             Mathf.Clamp(transform.position.x, minPos.x, maxPos.x),
             Mathf.Clamp(transform.position.y, minPos.y, maxPos.y),

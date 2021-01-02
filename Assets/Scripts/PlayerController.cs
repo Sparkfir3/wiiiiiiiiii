@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Misc")]
     private static LayerMask blockMask;
+    [HideInInspector] public Vector3 collidePos, pushedVelocity;
 
     private void Awake() {
         controller = GetComponent<CharacterController>();
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour {
                 interactable = selectedObj.GetComponent<InteractableBase>();
                 if(interactable) {
                     heldObject = selectedObj;
+                    interactable.player = this;
                     interactable.OnObjectGrab();
                 }
             }
@@ -80,12 +82,17 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        Vector3 newVelocity = new Vector3(InputManager.instance.GetAxis(Axis.Horizontal), 0f, InputManager.instance.GetAxis(Axis.Vertical)) * moveSpeed;
-        if(jumpFlag) {
-            newVelocity.y = jumpStrength;
-            jumpFlag = false;
+        Vector3 newVelocity;
+        if(pushedVelocity.magnitude == 0) {
+            newVelocity = new Vector3(InputManager.instance.GetAxis(Axis.Horizontal), 0f, InputManager.instance.GetAxis(Axis.Vertical)) * moveSpeed;
+            if(jumpFlag) {
+                newVelocity.y = jumpStrength;
+                jumpFlag = false;
+            } else {
+                newVelocity.y = Mathf.Clamp(controller.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
+            }
         } else {
-            newVelocity.y = Mathf.Clamp(controller.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
+            newVelocity = pushedVelocity;
         }
         controller.Move(newVelocity * Time.deltaTime);
 
@@ -100,8 +107,13 @@ public class PlayerController : MonoBehaviour {
 
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         if(((1 << hit.gameObject.layer) & blockMask) != 0) {
-            //Debug.Log("test");
+            //collidePos = hit.point;
         }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(collidePos, 0.25f);
     }
 
     #endregion
