@@ -137,6 +137,29 @@ public class InputManager : MonoBehaviour {
         }
     }
 
+    public bool GetCommand(Command command) {
+        // UI happens irrelevant of mode
+        if(command == Command.SelectUI)
+            return GetWiimoteButton(Button.A) || Input.GetMouseButton(0);
+
+        // Wiimote
+        if(mode == InputMode.Wiimote) {
+            if(command == Command.Jump)
+                return GetWiimoteButton(Button.A);
+            else if(command == Command.SelectObj)
+                return GetWiimoteButton(Button.B);
+            else
+                return false;
+        } else { // Mouse and keyboard
+            if(command == Command.Jump)
+                return Input.GetKey(KeyCode.Space);
+            else if(command == Command.SelectObj)
+                return Input.GetMouseButton(0);
+            else
+                return false;
+        }
+    }
+
     public float GetAxis(Axis axis) {
         if(mode == InputMode.Wiimote)
             return GetNunchuckAxis(axis);
