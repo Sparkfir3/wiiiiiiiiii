@@ -8,11 +8,17 @@ public class YellowBlock : RedBlock {
 
     [SerializeField] private bool useGravity;
 
-    private readonly static RigidbodyConstraints heldConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+    private RigidbodyConstraints heldConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
     private Coroutine slowDown;
 
     protected override void Start() {
         base.Start();
+
+        if(restrictX)
+            heldConstraints |= RigidbodyConstraints.FreezePositionX;
+        if(restrictY)
+            heldConstraints |= RigidbodyConstraints.FreezePositionY;
+
         if(useGravity) {
             rb.useGravity = true;
             rb.constraints = heldConstraints;

@@ -9,8 +9,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpStrength, floatGravity, shorthopGravity, fallGravity, maxFallSpeed;
     [SerializeField] private bool jumpFlag; // Serialized for testing
-    [SerializeField] private bool grounded; // Declared ONLY for viewing in inspector
-    private CharacterController controller;
+    [SerializeField] private bool grounded; // TODO
     private Rigidbody rb;
 
     [Header("Object Control")]
@@ -26,7 +25,7 @@ public class PlayerController : MonoBehaviour {
             maxFallSpeed *= -1f;
         jumpFlag = false;
 
-        blockMask = LayerMask.GetMask("Block");
+        blockMask = LayerMask.GetMask("Block", "Block Restricted");
     }
 
     // -----------------------------------------------------------------------------------------------------------
@@ -86,26 +85,9 @@ public class PlayerController : MonoBehaviour {
             newVelocity.y = jumpStrength;
             jumpFlag = false;
         } else {
-            //newVelocity.y = Mathf.Clamp(controller.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
             newVelocity.y = Mathf.Clamp(rb.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
         }
-        //controller.Move(newVelocity * Time.deltaTime);
         rb.velocity = newVelocity;
-        Debug.Log(rb.velocity + " /// " + newVelocity);
-
-        //grounded = controller.isGrounded;
-    }
-
-    #endregion
-
-    // -----------------------------------------------------------------------------------------------------------
-
-    #region Collisions
-
-    private void OnControllerColliderHit(ControllerColliderHit hit) {
-        if(((1 << hit.gameObject.layer) & blockMask) != 0) {
-            //Debug.Log("test");
-        }
     }
 
     #endregion
