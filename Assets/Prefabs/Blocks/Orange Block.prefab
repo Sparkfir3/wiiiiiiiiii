@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1098301338590031835}
   - component: {fileID: 1098301338582326651}
   - component: {fileID: 1098301338587539250}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Orange Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,6 +128,8 @@ MonoBehaviour:
   held: 0
   releaseIfPointerOffScreen: 1
   restrictedBounds: 1
+  restrictX: 0
+  restrictY: 0
   dragSpeedMultiplier: 3
   useGravity: 1
 --- !u!1001 &889174282776609568

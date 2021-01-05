@@ -8,7 +8,7 @@ public abstract class InteractableBase : MonoBehaviour {
 
     [Header("Generic Block Settings")]
     public bool releaseIfPointerOffScreen;
-    [SerializeField] protected bool restrictedBounds;
+    [SerializeField] protected bool restrictedBounds, restrictX, restrictY;
 
     [Header("Bounds")]
     protected List<Transform> bounds = new List<Transform>();

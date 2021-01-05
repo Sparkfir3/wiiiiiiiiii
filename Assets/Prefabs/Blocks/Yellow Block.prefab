@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 685969782380997684}
   - component: {fileID: 685969782374080148}
   - component: {fileID: 685969782379291869}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Yellow Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,6 +128,8 @@ MonoBehaviour:
   held: 0
   releaseIfPointerOffScreen: 1
   restrictedBounds: 1
+  restrictX: 0
+  restrictY: 0
   dragSpeedMultiplier: 3
   useGravity: 0
 --- !u!1001 &787573113617776847

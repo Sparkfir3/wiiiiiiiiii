@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpStrength, floatGravity, shorthopGravity, fallGravity, maxFallSpeed;
     [SerializeField] private bool jumpFlag; // Serialized for testing
-    [SerializeField] private bool grounded; // Declared ONLY for viewing in inspector
-    private CharacterController controller;
+    [SerializeField] private bool grounded; // TODO
+    private Rigidbody rb;
 
     [Header("Object Control")]
     private GameObject heldObject;
@@ -20,12 +20,12 @@ public class PlayerController : MonoBehaviour {
     private static LayerMask blockMask;
 
     private void Awake() {
-        controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
         if(maxFallSpeed < 0)
             maxFallSpeed *= -1f;
         jumpFlag = false;
 
-        blockMask = LayerMask.GetMask("Block");
+        blockMask = LayerMask.GetMask("Block", "Block Restricted");
     }
 
     // -----------------------------------------------------------------------------------------------------------
@@ -85,23 +85,9 @@ public class PlayerController : MonoBehaviour {
             newVelocity.y = jumpStrength;
             jumpFlag = false;
         } else {
-            newVelocity.y = Mathf.Clamp(controller.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
+            newVelocity.y = Mathf.Clamp(rb.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
         }
-        controller.Move(newVelocity * Time.deltaTime);
-
-        grounded = controller.isGrounded;
-    }
-
-    #endregion
-
-    // -----------------------------------------------------------------------------------------------------------
-
-    #region Collisions
-
-    private void OnControllerColliderHit(ControllerColliderHit hit) {
-        if(((1 << hit.gameObject.layer) & blockMask) != 0) {
-            //Debug.Log("test");
-        }
+        rb.velocity = newVelocity;
     }
 
     #endregion
@@ -114,7 +100,7 @@ public class PlayerController : MonoBehaviour {
     /// Returns the player's current gravity as a float value
     /// </summary>
     private float FindGravity() {
-        if(controller.velocity.y > 0) {
+        if(rb.velocity.y > 0) {
             if(InputManager.instance.GetCommand(Command.Jump)) {
                 return floatGravity;
             } else {
