@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+    private NextSection currentSection;
     private Coroutine moving;
 
-    public void MoveToPosition(Vector3 targetPos) {
+    public void MoveToPosition(Vector3 targetPos, NextSection next) {
+        if(currentSection == next)
+            return;
+        currentSection = next;
+
         if(moving != null)
             StopCoroutine(moving);
-        moving = StartCoroutine(MovingCoroutine(targetPos, 1f));
+        moving = StartCoroutine(MovingCoroutine(targetPos, 0.4f));
     }
 
     private IEnumerator MovingCoroutine(Vector3 targetPos, float moveTime) {
@@ -18,6 +23,7 @@ public class CameraController : MonoBehaviour {
             transform.position = Vector3.Lerp(originalPos, targetPos, i / moveTime);
             yield return null;
         }
+        transform.position = targetPos;
     }
 
 }
