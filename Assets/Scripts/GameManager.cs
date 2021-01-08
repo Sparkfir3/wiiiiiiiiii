@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour {
         // Other
         DontDestroyOnLoad(cursorCanvas);
         DontDestroyOnLoad(wiimoteSetup.gameObject);
+        cursorCanvas.SetActive(true);
 
         // Input Manager
         inputs = GetComponent<InputManager>();

@@ -352,6 +352,8 @@ public class InputManager : MonoBehaviour {
     /// </summary>
     /// <param name="axis">The axis the check for, either "Horizontal" or "Vertical"</param>
     public float GetNunchuckAxis(Axis axis) {
+        if(wiimote == null)
+            return 0;
         if(wiimote.current_ext != ExtensionController.NUNCHUCK) {
             Debug.LogError("Nunchuck not detected");
             return 0;
@@ -373,6 +375,7 @@ public class InputManager : MonoBehaviour {
         // Check if input mode not setup
         if(value == 0) {
             Debug.LogError("Attempting to read nunchuck data when input mode is not setup");
+            wiimoteSetup.Setup();
             return 0f;
         }
 
