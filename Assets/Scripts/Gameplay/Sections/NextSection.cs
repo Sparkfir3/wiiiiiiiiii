@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NextSection : MonoBehaviour {
 
 #pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
+
+    public UnityEvent OnFirstTrigger;
+    private bool triggered;
 
     [SerializeField] private Vector3 cameraOffset;
     private CameraController cam;
@@ -17,6 +21,8 @@ public class NextSection : MonoBehaviour {
 
     private void Start() {
         cam = Camera.main.GetComponent<CameraController>();
+
+        triggered = false;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -24,6 +30,11 @@ public class NextSection : MonoBehaviour {
             if(!cam)
                 cam = Camera.main.GetComponent<CameraController>();
             JumpCamera();
+
+            if(!triggered) {
+                OnFirstTrigger.Invoke();
+                triggered = true;
+            }
         }
     }
 

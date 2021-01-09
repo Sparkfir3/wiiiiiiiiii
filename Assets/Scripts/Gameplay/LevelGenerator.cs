@@ -7,6 +7,7 @@ public class LevelGenerator : MonoBehaviour {
 #pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
 
     [SerializeField] private List<GameObject> sectionList = new List<GameObject>();
+    private int sectionCount = 0;
 
     [Header("Debug")]
     [SerializeField] private Transform nextSectionSpawnPos;
@@ -24,7 +25,12 @@ public class LevelGenerator : MonoBehaviour {
     }
 
     public void SpawnNextSection() {
-        Instantiate(GetNextSection(), nextSectionSpawnPos.position, Quaternion.identity);
+        sectionCount++;
+
+        GameObject section = Instantiate(GetNextSection(), nextSectionSpawnPos.position, Quaternion.identity);
+        if(sectionCount != 1)
+            section.GetComponentInChildren<NextSection>().OnFirstTrigger.AddListener(SpawnNextSection);
+
         nextSectionSpawnPos.position += new Vector3(0f, 0f, 14f);
     }
 
