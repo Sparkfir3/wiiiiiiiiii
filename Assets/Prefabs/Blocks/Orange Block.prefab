@@ -161,26 +161,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
         type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.35355338
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.1464466
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.35355338
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.8535535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
@@ -233,26 +213,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.35355338
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.1464466
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.35355338
-      objectReference: {fileID: 0}
-    - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.8535535
       objectReference: {fileID: 0}
     - target: {fileID: 2184571459921254646, guid: 872c39d015ed78e4384e0083b0d83e16,
         type: 3}

@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
             maxFallSpeed *= -1f;
         jumpFlag = false;
 
-        blockMask = LayerMask.GetMask("Block", "Block Restricted");
+        blockMask = LayerMask.GetMask("Default", "Block", "Block Restricted", "Block Alt");
     }
 
     // -----------------------------------------------------------------------------------------------------------

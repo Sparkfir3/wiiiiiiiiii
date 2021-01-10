@@ -239,7 +239,7 @@ public class InputManager : MonoBehaviour {
         Vector3 direction = GetPointerDirectionVector();
 
         RaycastHit hit;
-        if(Physics.Raycast(cam.transform.position, direction, out hit, maxDistance)) {
+        if(Physics.Raycast(cam.transform.position, direction, out hit, maxDistance, mask)) {
             return hit.collider.gameObject;
         }
         return null;

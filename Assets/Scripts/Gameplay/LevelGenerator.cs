@@ -35,7 +35,7 @@ public class LevelGenerator : MonoBehaviour {
     }
 
     private GameObject GetNextSection() {
-        return sectionList[Random.Range(0, sectionList.Count - 1)];
+        return sectionList[Random.Range(0, sectionList.Count)];
     }
 
     // -----------------------------------------------------------------------------------------------------------

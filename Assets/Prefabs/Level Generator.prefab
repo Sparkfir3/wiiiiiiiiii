@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sectionList:
   - {fileID: 7533676623800887942, guid: 2b5609334b2effb40a6d60b49a362f98, type: 3}
+  - {fileID: 3774607292751511634, guid: eda0658a39448524ba5b2b67747fab4e, type: 3}
   nextSectionSpawnPos: {fileID: 1274377747887050422}
   displaySectionSpawnPos: 1
 --- !u!1 &1274377747887050421
