@@ -68,7 +68,7 @@ public abstract class InteractableBase : MonoBehaviour {
 
     #region Repeating
 
-    protected void Update() {
+    protected virtual void Update() {
         if(held && releaseIfPointerOffScreen && !InputManager.instance.PointerOnScreen()) 
             OnObjectRelease();
 
