@@ -109,6 +109,8 @@ public abstract class InteractableBase : MonoBehaviour {
 
     // -----------------------------------------------------------------------------------------------------------
 
+    #region Misc
+
     /// <summary>
     /// Returns the target position relative to the pointer in the proper xy-plane
     /// See Notion document for calculations and full formula
@@ -135,5 +137,21 @@ public abstract class InteractableBase : MonoBehaviour {
             transform.position.z
         );
     }
+
+    #endregion
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    #region Editor
+#if UNITY_EDITOR
+
+    public void SetBoundGizmos(bool value) {
+        var bounds = GetComponentsInChildren<BoundsRenderer>();
+        foreach(BoundsRenderer bound in bounds)
+            bound.displayGizmo = value;
+    }
+
+#endif
+    #endregion
 
 }
