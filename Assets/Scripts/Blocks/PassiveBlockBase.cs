@@ -6,7 +6,7 @@ public abstract class PassiveBlockBase : InteractableBase {
 
 #pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
 
-    [Header("Active Management")]
+    [Header("Passive Block Management")]
     [SerializeField] protected bool activeOnStart;
     protected bool active;
 
@@ -16,6 +16,7 @@ public abstract class PassiveBlockBase : InteractableBase {
 
     protected override void Awake() {
         base.Awake();
+        canBeHeld = false;
         if(activeOnStart)
             active = true;
         else

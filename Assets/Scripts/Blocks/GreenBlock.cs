@@ -19,8 +19,7 @@ public class GreenBlock : PassiveBlockBase {
         if(InputManager.instance.mode == InputMode.Wiimote) {
             targetVelocity = InputManager.instance.GetAccelVector() * moveSpeed;
         } else { // Mouse and keyboard - buttons
-            // TODO
-            targetVelocity = Vector3.up;
+            targetVelocity = new Vector3(Input.GetAxis("Accel X"), Input.GetAxis("Accel Y"), 0f).normalized * moveSpeed;
         }
     }
 

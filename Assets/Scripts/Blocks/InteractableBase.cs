@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class InteractableBase : MonoBehaviour {
 
     public bool held;
+    [HideInInspector] public bool canBeHeld = true;
 
     [Header("Generic Block Settings")]
     public bool releaseIfPointerOffScreen;

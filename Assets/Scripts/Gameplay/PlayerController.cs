@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour {
             // If button pressed, pick up object
             if(selectedObj != null && InputManager.instance.GetCommandDown(Command.SelectObj)) {
                 interactable = selectedObj.GetComponent<InteractableBase>();
-                if(interactable) {
+                if(interactable && interactable.canBeHeld) {
                     heldObject = selectedObj;
                     interactable.OnObjectGrab();
                 }
