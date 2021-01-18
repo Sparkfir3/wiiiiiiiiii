@@ -6,6 +6,7 @@ public class BlueBlock : PassiveBlockBase {
 
     [Header("Movement")]
     [SerializeField] private float jumpSpeed;
+    [Range(-90, 90)] [SerializeField] private float angularSpeedX, angularSpeedY, angularSpeedZ;
     [SerializeField] private float jumpCooldown;
     private float cooldownTimer;
     private bool jumpTrigger = false;
@@ -23,6 +24,7 @@ public class BlueBlock : PassiveBlockBase {
     private void FixedUpdate() {
         if(jumpTrigger) {
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, rb.velocity.z);
+            rb.angularVelocity = new Vector3(angularSpeedX, angularSpeedY, angularSpeedZ);
             StartCoroutine(CooldownTimer());
             jumpTrigger = false;
         }
