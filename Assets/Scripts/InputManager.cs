@@ -4,7 +4,7 @@ using WiimoteApi;
 
 public enum InputMode { Wiimote, MouseKeyboard };
 public enum Button { A, B, Up, Down, Left, Right, Plus, Minus, Home, One, Two, Z, C };
-public enum Command { Jump, SelectObj, SelectUI }
+public enum Command { Jump, SelectObj, SelectUI, Shake }
 public enum Axis { Horizontal, Vertical }
 
 /// <summary>
@@ -112,6 +112,7 @@ public class InputManager : MonoBehaviour {
             else
                 return false;
         }
+        // Command.Shake must use regular GetCommand - Down version not implemented
     }
 
     public bool GetCommandUp(Command command) {
@@ -135,6 +136,7 @@ public class InputManager : MonoBehaviour {
             else
                 return false;
         }
+        // Command.Shake must use regular GetCommand - Up version not implemented
     }
 
     public bool GetCommand(Command command) {
@@ -148,6 +150,8 @@ public class InputManager : MonoBehaviour {
                 return GetWiimoteButton(Button.A);
             else if(command == Command.SelectObj)
                 return GetWiimoteButton(Button.B);
+            else if(command == Command.Shake)
+                return Shake;
             else
                 return false;
         } else { // Mouse and keyboard
@@ -155,6 +159,8 @@ public class InputManager : MonoBehaviour {
                 return Input.GetKey(KeyCode.Space);
             else if(command == Command.SelectObj)
                 return Input.GetMouseButton(0);
+            else if(command == Command.Shake)
+                return Input.GetButton("Shake");
             else
                 return false;
         }

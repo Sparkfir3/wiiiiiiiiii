@@ -24,6 +24,11 @@ public abstract class InteractableBase : MonoBehaviour {
 
     protected virtual void Awake() {
         rb = GetComponent<Rigidbody>();
+
+        if(restrictX)
+            rb.constraints |= RigidbodyConstraints.FreezePositionX;
+        if(restrictY)
+            rb.constraints |= RigidbodyConstraints.FreezePositionY;
     }
 
     protected virtual void Start() {
