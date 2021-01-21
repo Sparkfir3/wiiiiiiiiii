@@ -129,7 +129,7 @@ MonoBehaviour:
   canBeHeld: 0
   releaseIfPointerOffScreen: 0
   restrictedBounds: 1
-  restrictX: 1
+  restrictX: 0
   restrictY: 0
   activeOnStart: 1
   moveSpeed: 10
