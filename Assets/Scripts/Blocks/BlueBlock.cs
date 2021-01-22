@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BlueBlock : PassiveBlockBase {
 
+#pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
+
     [Header("Movement")]
     [SerializeField] private float jumpSpeed;
     [Range(-90, 90)] [SerializeField] private float angularSpeedX, angularSpeedY, angularSpeedZ;

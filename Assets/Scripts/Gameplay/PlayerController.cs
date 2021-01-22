@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpStrength, floatGravity, shorthopGravity, fallGravity, maxFallSpeed;
     [SerializeField] private bool jumpFlag; // Serialized for testing
-    [SerializeField] private bool grounded; // TODO
+    public GameObject currentGround;
     private Rigidbody rb;
 
     [Header("Object Control")]
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
 
         #region Jump Detection
 
-        if(!jumpFlag && InputManager.instance.GetCommandDown(Command.Jump))
+        if(!jumpFlag && currentGround && InputManager.instance.GetCommandDown(Command.Jump))
             jumpFlag = true;
 
         #endregion

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1431332781}
   - component: {fileID: 1431332780}
   - component: {fileID: 1431332779}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 1992052509}
   - component: {fileID: 1992052508}
   - component: {fileID: 1992052507}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Step Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1347,6 +1347,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1050523137070686977, guid: a6c6b5f5a7791a641ab9630b386aa5f6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656778423852227142, guid: a6c6b5f5a7791a641ab9630b386aa5f6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8696326272815688763, guid: a6c6b5f5a7791a641ab9630b386aa5f6,
         type: 3}
       propertyPath: m_Mesh

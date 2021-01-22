@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PinkBlock : RedBlock {
 
+#pragma warning disable 0649 // Disable "Field is never assigned" warning for SerializeField
+
     [Header("Respawn")]
     [SerializeField] private float respawnTime;
     private Coroutine respawnRoutine;

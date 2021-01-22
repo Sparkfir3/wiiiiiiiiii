@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 8696326272815688764}
   - component: {fileID: 8696326272815688765}
   - component: {fileID: 8696326272815688766}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lane Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1593,7 +1593,7 @@ GameObject:
   - component: {fileID: 8696326273989021416}
   - component: {fileID: 8696326273989021417}
   - component: {fileID: 8696326273989021418}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Back Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1899,7 +1899,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8696326274154680145}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Puzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
