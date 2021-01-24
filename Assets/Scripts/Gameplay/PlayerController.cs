@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
     private InteractableBase interactable;
 
     [Header("Misc")]
-    private static LayerMask blockMask;
+    private static LayerMask blockMask, movingBlockMask;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour {
         jumpFlag = false;
 
         blockMask = LayerMask.GetMask("Default", "Block", "Block Restricted", "Block Alt");
+        movingBlockMask = LayerMask.GetMask("Block Restricted", "Block Alt");
     }
 
     // -----------------------------------------------------------------------------------------------------------
@@ -80,13 +81,27 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        // Get inputs
         Vector3 newVelocity = new Vector3(InputManager.instance.GetAxis(Axis.Horizontal), 0f, InputManager.instance.GetAxis(Axis.Vertical)) * moveSpeed;
+
+        // Apply jump
         if(jumpFlag) {
             newVelocity.y = jumpStrength;
             jumpFlag = false;
         } else {
             newVelocity.y = Mathf.Clamp(rb.velocity.y - FindGravity(), -maxFallSpeed, Mathf.Infinity);
         }
+
+        // Apply moving platforms
+        if(currentGround && ((1 << currentGround.layer) & movingBlockMask) != 0) {
+            Rigidbody blockRb = currentGround.GetComponent<Rigidbody>();
+            if(blockRb) {
+                newVelocity += new Vector3(blockRb.velocity.x, 0f, blockRb.velocity.z);
+            } else
+                Debug.LogError("Attempting to grab Rigidbody component from a block without a Rigidbody component: " + currentGround.name);
+        }
+
+        // Apply total velocity
         rb.velocity = newVelocity;
     }
 
