@@ -136,6 +136,12 @@ public abstract class InteractableBase : MonoBehaviour {
     protected void ClampPosition() {
         if(!restrictedBounds)
             return;
+
+        // Clamp X and apply velocity - for player/moving platform physics
+        if((transform.position.x <= minPos.x && rb.velocity.x < 0) || 
+                (transform.position.x >= maxPos.x && rb.velocity.x > 0))
+            rb.velocity = new Vector3(0, rb.velocity.y);
+
         transform.position = new Vector3(
             Mathf.Clamp(transform.position.x, minPos.x, maxPos.x),
             Mathf.Clamp(transform.position.y, minPos.y, maxPos.y),
