@@ -2,11 +2,6 @@
 using System.Collections;
 using WiimoteApi;
 
-public enum InputMode { Wiimote, MouseKeyboard };
-public enum Button { A, B, Up, Down, Left, Right, Plus, Minus, Home, One, Two, Z, C };
-public enum Command { Jump, SelectObj, SelectUI, Shake }
-public enum Axis { Horizontal, Vertical }
-
 /// <summary>
 /// Custom input manager that takes into account both Wii remotes and the mouse + keyboard
 /// </summary>
@@ -92,12 +87,14 @@ public class InputManager : MonoBehaviour {
     /// Returns the proper button input for the command, given the current input mode
 
     public bool GetCommandDown(Command command) {
-        // UI happens irrelevant of mode
+        // UI and pause happen irrelevant of mode
         if(command == Command.SelectUI)
             return GetWiimoteButtonDown(Button.A) || Input.GetMouseButtonDown(0);
+        else if(command == Command.Pause)
+            return GetWiimoteButtonDown(Button.Plus) || GetWiimoteButtonDown(Button.Minus) || Input.GetKeyDown(KeyCode.Escape);
 
         // Wiimote
-        if(mode == InputMode.Wiimote) {
+        else if(mode == InputMode.Wiimote) {
             if(command == Command.Jump)
                 return GetWiimoteButtonDown(Button.A);
             else if(command == Command.SelectObj)
@@ -119,9 +116,11 @@ public class InputManager : MonoBehaviour {
         // UI happens irrelevant of mode
         if(command == Command.SelectUI)
             return GetWiimoteButtonUp(Button.A) || Input.GetMouseButtonUp(0);
+        else if(command == Command.Pause)
+            return GetWiimoteButtonUp(Button.Plus) || GetWiimoteButtonUp(Button.Minus) || Input.GetKeyUp(KeyCode.Escape);
 
         // Wiimote
-        if(mode == InputMode.Wiimote) {
+        else if(mode == InputMode.Wiimote) {
             if(command == Command.Jump)
                 return GetWiimoteButtonUp(Button.A);
             else if(command == Command.SelectObj)
@@ -143,9 +142,11 @@ public class InputManager : MonoBehaviour {
         // UI happens irrelevant of mode
         if(command == Command.SelectUI)
             return GetWiimoteButton(Button.A) || Input.GetMouseButton(0);
+        else if(command == Command.Pause)
+            return GetWiimoteButton(Button.Plus) || GetWiimoteButton(Button.Minus) || Input.GetKey(KeyCode.Escape);
 
         // Wiimote
-        if(mode == InputMode.Wiimote) {
+        else if(mode == InputMode.Wiimote) {
             if(command == Command.Jump)
                 return GetWiimoteButton(Button.A);
             else if(command == Command.SelectObj)
