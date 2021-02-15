@@ -7,15 +7,15 @@ public class WiimoteGetButton : MonoBehaviour {
 
     private Wiimote wiimote;
 
-    private Button[] buttonTypes;
-    public Dictionary<Button, bool> buttonDown = new Dictionary<Button, bool>();
-    private Dictionary<Button, bool> buttonDownFlag = new Dictionary<Button, bool>();
-    public Dictionary<Button, bool> buttonUp = new Dictionary<Button, bool>();
-    private Dictionary<Button, bool> buttonUpFlag = new Dictionary<Button, bool>();
+    private WiiButton[] buttonTypes;
+    public Dictionary<WiiButton, bool> buttonDown = new Dictionary<WiiButton, bool>();
+    private Dictionary<WiiButton, bool> buttonDownFlag = new Dictionary<WiiButton, bool>();
+    public Dictionary<WiiButton, bool> buttonUp = new Dictionary<WiiButton, bool>();
+    private Dictionary<WiiButton, bool> buttonUpFlag = new Dictionary<WiiButton, bool>();
 
     private void Awake() {
-        buttonTypes = (Button[])System.Enum.GetValues(typeof(Button));
-        foreach(Button type in buttonTypes) {
+        buttonTypes = (WiiButton[])System.Enum.GetValues(typeof(WiiButton));
+        foreach(WiiButton type in buttonTypes) {
             buttonDown.Add(type, false);
             buttonDownFlag.Add(type, false);
             buttonUp.Add(type, false);
@@ -26,7 +26,7 @@ public class WiimoteGetButton : MonoBehaviour {
     private void Update() {
         wiimote = InputManager.wiimote;
         if(wiimote == null) {
-            foreach(Button type in buttonTypes) {
+            foreach(WiiButton type in buttonTypes) {
                 buttonDown[type] = false;
                 buttonDownFlag[type] = false;
                 buttonUp[type] = false;
@@ -35,7 +35,7 @@ public class WiimoteGetButton : MonoBehaviour {
             return;
         }
 
-        foreach(Button type in buttonTypes) {
+        foreach(WiiButton type in buttonTypes) {
             // Button pressed
             if(GetCorrespondingWiimoteButton(type)) {
                 // Down - check
@@ -65,48 +65,48 @@ public class WiimoteGetButton : MonoBehaviour {
         }
     }
 
-    public bool GetCorrespondingWiimoteButton(Button button) {
+    public bool GetCorrespondingWiimoteButton(WiiButton button) {
         switch(button) {
-            case Button.A:
+            case WiiButton.A:
                 return wiimote.Button.a;
-            case Button.B:
+            case WiiButton.B:
                 return wiimote.Button.b;
-            case Button.Up:
+            case WiiButton.Up:
                 return wiimote.Button.d_up;
-            case Button.Down:
+            case WiiButton.Down:
                 return wiimote.Button.d_down;
-            case Button.Left:
+            case WiiButton.Left:
                 return wiimote.Button.d_left;
-            case Button.Right:
+            case WiiButton.Right:
                 return wiimote.Button.d_right;
-            case Button.Plus:
+            case WiiButton.Plus:
                 return wiimote.Button.plus;
-            case Button.Minus:
+            case WiiButton.Minus:
                 return wiimote.Button.minus;
-            case Button.Home:
+            case WiiButton.Home:
                 return wiimote.Button.home;
-            case Button.One:
+            case WiiButton.One:
                 return wiimote.Button.one;
-            case Button.Two:
+            case WiiButton.Two:
                 return wiimote.Button.two;
-            case Button.Z:
-            case Button.C:
+            case WiiButton.Z:
+            case WiiButton.C:
                 return GetNunchuckButton(button);
             default:
                 return false;
         }
     }
 
-    private bool GetNunchuckButton(Button button) {
+    private bool GetNunchuckButton(WiiButton button) {
         if(wiimote.current_ext != ExtensionController.NUNCHUCK) {
             //Debug.LogError("Nunchuck not detected");
             return false;
         }
 
         NunchuckData data = wiimote.Nunchuck;
-        if(button == Button.Z)
+        if(button == WiiButton.Z)
             return data.z;
-        else if(button == Button.C)
+        else if(button == WiiButton.C)
             return data.c;
         else
             return false;

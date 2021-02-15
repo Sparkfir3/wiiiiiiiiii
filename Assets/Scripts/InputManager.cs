@@ -89,16 +89,16 @@ public class InputManager : MonoBehaviour {
     public bool GetCommandDown(Command command) {
         // UI and pause happen irrelevant of mode
         if(command == Command.SelectUI)
-            return GetWiimoteButtonDown(Button.A) || Input.GetMouseButtonDown(0);
+            return GetWiimoteButtonDown(WiiButton.A) || Input.GetMouseButtonDown(0);
         else if(command == Command.Pause)
-            return GetWiimoteButtonDown(Button.Plus) || GetWiimoteButtonDown(Button.Minus) || Input.GetKeyDown(KeyCode.Escape);
+            return GetWiimoteButtonDown(WiiButton.Plus) || GetWiimoteButtonDown(WiiButton.Minus) || Input.GetKeyDown(KeyCode.Escape);
 
         // Wiimote
         else if(mode == InputMode.Wiimote) {
             if(command == Command.Jump)
-                return GetWiimoteButtonDown(Button.A);
+                return GetWiimoteButtonDown(WiiButton.A);
             else if(command == Command.SelectObj)
-                return GetWiimoteButtonDown(Button.B);
+                return GetWiimoteButtonDown(WiiButton.B);
             else
                 return false;
         } else { // Mouse and keyboard
@@ -115,16 +115,16 @@ public class InputManager : MonoBehaviour {
     public bool GetCommandUp(Command command) {
         // UI happens irrelevant of mode
         if(command == Command.SelectUI)
-            return GetWiimoteButtonUp(Button.A) || Input.GetMouseButtonUp(0);
+            return GetWiimoteButtonUp(WiiButton.A) || Input.GetMouseButtonUp(0);
         else if(command == Command.Pause)
-            return GetWiimoteButtonUp(Button.Plus) || GetWiimoteButtonUp(Button.Minus) || Input.GetKeyUp(KeyCode.Escape);
+            return GetWiimoteButtonUp(WiiButton.Plus) || GetWiimoteButtonUp(WiiButton.Minus) || Input.GetKeyUp(KeyCode.Escape);
 
         // Wiimote
         else if(mode == InputMode.Wiimote) {
             if(command == Command.Jump)
-                return GetWiimoteButtonUp(Button.A);
+                return GetWiimoteButtonUp(WiiButton.A);
             else if(command == Command.SelectObj)
-                return GetWiimoteButtonUp(Button.B);
+                return GetWiimoteButtonUp(WiiButton.B);
             else
                 return false;
         } else { // Mouse and keyboard
@@ -141,16 +141,16 @@ public class InputManager : MonoBehaviour {
     public bool GetCommand(Command command) {
         // UI happens irrelevant of mode
         if(command == Command.SelectUI)
-            return GetWiimoteButton(Button.A) || Input.GetMouseButton(0);
+            return GetWiimoteButton(WiiButton.A) || Input.GetMouseButton(0);
         else if(command == Command.Pause)
-            return GetWiimoteButton(Button.Plus) || GetWiimoteButton(Button.Minus) || Input.GetKey(KeyCode.Escape);
+            return GetWiimoteButton(WiiButton.Plus) || GetWiimoteButton(WiiButton.Minus) || Input.GetKey(KeyCode.Escape);
 
         // Wiimote
         else if(mode == InputMode.Wiimote) {
             if(command == Command.Jump)
-                return GetWiimoteButton(Button.A);
+                return GetWiimoteButton(WiiButton.A);
             else if(command == Command.SelectObj)
-                return GetWiimoteButton(Button.B);
+                return GetWiimoteButton(WiiButton.B);
             else if(command == Command.Shake)
                 return Shake;
             else
@@ -181,15 +181,15 @@ public class InputManager : MonoBehaviour {
     #region Get Wiimote Buttons
     /// Equivalent of Input.GetButton and its variants, but for the wii remote
 
-    public bool GetWiimoteButton(Button button) {
+    public bool GetWiimoteButton(WiiButton button) {
         return getButton.GetCorrespondingWiimoteButton(button);
     }
 
-    public bool GetWiimoteButtonDown(Button button) {
+    public bool GetWiimoteButtonDown(WiiButton button) {
         return getButton.buttonDown[button];
     }
 
-    public bool GetWiimoteButtonUp(Button button) {
+    public bool GetWiimoteButtonUp(WiiButton button) {
         return getButton.buttonUp[button];
     }
 
