@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     private InputManager inputs;
 
     [Header("Game Control")]
+    public GameState currentState;
     public GameObject loseScreen;
 
     [Header("Pause Control")]
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour {
 
     // -----------------------------------------------------------------------------------------------------------
 
+    #region Initialization
+
     private void Awake() {
         // Singleton initialization
         if(gm == null) {
@@ -62,13 +65,6 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(wiimoteSetup.gameObject);
         cursorCanvas.SetActive(true);
 
-        // Game control
-        OnLoadScene.AddListener(() => {
-            Paused = false;
-            loseScreen.SetActive(false);
-            // TODO - grab lose screen on load new scene
-        });
-
         // Input Manager
         inputs = GetComponent<InputManager>();
         InputManager.instance = inputs;
@@ -79,12 +75,26 @@ public class GameManager : MonoBehaviour {
         OnLoadScene.Invoke();
     }
 
+    #endregion
+
     // -----------------------------------------------------------------------------------------------------------
 
     private void Update() {
         if(InputManager.instance.GetCommandDown(Command.Pause))
             Paused = !Paused;
     }
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    #region Game Control
+
+    public void LoseGame() {
+        Time.timeScale = 0;
+        currentState = GameState.Lose;
+        loseScreen.SetActive(true);
+    }
+
+    #endregion
 
     // -----------------------------------------------------------------------------------------------------------
 
@@ -105,8 +115,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private bool CanPause() {
-        return true;
-        // TODO
+        return currentState == GameState.Gameplay || currentState == GameState.Paused;
     }
 
     #endregion
@@ -117,6 +126,10 @@ public class GameManager : MonoBehaviour {
 
     public void LoadScene(string scene) {
         SceneManager.LoadScene(scene);
+        OnLoadScene.Invoke();
+
+        currentState = GameState.Gameplay;
+        Paused = false;
     }
 
     #endregion

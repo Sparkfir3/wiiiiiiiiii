@@ -231,6 +231,8 @@ public class InputManager : MonoBehaviour {
     /// </summary>
     public Vector3 GetPointerDirectionVector() {
         Vector2 viewportPos = GetPointerViewportPos();
+        if(cam == null)
+            cam = Camera.main;
         Vector3 pointerPos = cam.ViewportToWorldPoint(new Vector3(viewportPos.x, viewportPos.y, Camera.main.nearClipPlane));
         return (pointerPos - cam.transform.position).normalized;
     }
