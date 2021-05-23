@@ -57,7 +57,10 @@ public class GameManager : MonoBehaviour {
             gm = this;
             DontDestroyOnLoad(gameObject);
         } else {
+            Destroy(cursorCanvas);
+            Destroy(wiimoteSetup.gameObject);
             Destroy(gameObject);
+            return;
         }
 
         // Cursor management
@@ -130,6 +133,7 @@ public class GameManager : MonoBehaviour {
 
         currentState = GameState.Gameplay;
         Paused = false;
+        Time.timeScale = 1;
     }
 
     #endregion

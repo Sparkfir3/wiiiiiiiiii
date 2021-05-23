@@ -1213,6 +1213,10 @@ PrefabInstance:
       propertyPath: wiimoteSetup
       value: 
       objectReference: {fileID: 668133470}
+    - target: {fileID: 11430672, guid: cef0ed05e25663346b7279105b34332d, type: 3}
+      propertyPath: currentState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 11439440, guid: cef0ed05e25663346b7279105b34332d, type: 3}
       propertyPath: mode
       value: 1
