@@ -45,6 +45,15 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public GameObject PauseMenu {
+        get {
+            return pauseMenu;
+        }
+        set {
+            pauseMenu = value;
+        }
+    }
+
     #endregion
 
     // -----------------------------------------------------------------------------------------------------------
