@@ -8,6 +8,7 @@ public class GreenBlock : PassiveBlockBase {
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float playerOffsetSpeed; // Speed to counteract the player weighing down on it
     private Vector3 targetVelocity;
 
     // -----------------------------------------------------------------------------------------------------------
@@ -25,6 +26,8 @@ public class GreenBlock : PassiveBlockBase {
 
     private void FixedUpdate() {
         rb.velocity = targetVelocity;
+        if(PlayerController.pc.IsStandingOn(gameObject))
+            rb.velocity += Vector3.up * playerOffsetSpeed;
     }
 
     #endregion

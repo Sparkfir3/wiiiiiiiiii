@@ -34,10 +34,10 @@ public class GroundDetection : MonoBehaviour {
         } else {
             currentGround = null;
         }
-        player.currentGround = currentGround;
+        player.CurrentGround = currentGround;
 
-        if(infiniteJumps && !player.currentGround)
-            player.currentGround = gameObject;
+        if(infiniteJumps && !player.CurrentGround)
+            player.CurrentGround = gameObject;
     }
 
     private void OnDrawGizmos() {

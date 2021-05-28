@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpStrength, floatGravity, shorthopGravity, fallGravity, maxFallSpeed;
     [SerializeField] private bool jumpFlag; // Serialized for testing
-    public GameObject currentGround;
+    [SerializeField] private GameObject currentGround;
     private Rigidbody rb;
 
     [Header("Object Control")]
@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Misc")]
     private static LayerMask blockMask, movingBlockMask;
+    public static GameObject player;
+    public static PlayerController pc;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour {
 
         blockMask = LayerMask.GetMask("Default", "Block", "Block Restricted", "Block Alt");
         movingBlockMask = LayerMask.GetMask("Block Restricted", "Block Alt");
+        player = gameObject;
+        pc = this;
     }
 
     // -----------------------------------------------------------------------------------------------------------
@@ -137,6 +141,25 @@ public class PlayerController : MonoBehaviour {
             heldObject = null;
             interactable = null;
         }
+    }
+
+    #endregion
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    #region Misc
+
+    public GameObject CurrentGround {
+        get {
+            return currentGround;
+        }
+        set {
+            currentGround = value;
+        }
+    }
+
+    public bool IsStandingOn(GameObject obj) {
+        return currentGround == obj;
     }
 
     #endregion

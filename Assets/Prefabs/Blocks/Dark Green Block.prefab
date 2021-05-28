@@ -133,6 +133,7 @@ MonoBehaviour:
   restrictY: 0
   activeOnStart: 1
   moveSpeed: 2
+  playerOffsetSpeed: 0.7
 --- !u!1001 &967885195147448634
 PrefabInstance:
   m_ObjectHideFlags: 0

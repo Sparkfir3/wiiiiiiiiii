@@ -134,4 +134,6 @@ MonoBehaviour:
   angularSpeedX: 0
   angularSpeedY: 0
   angularSpeedZ: 0
+  playerOffsetSpeed: 0.5
+  playerOffsetJumpSpeed: 1.25
   jumpCooldown: 0.5

@@ -9,6 +9,7 @@ public class BlueBlock : PassiveBlockBase {
     [Header("Movement")]
     [SerializeField] private float jumpSpeed;
     [Range(-90, 90)] [SerializeField] private float angularSpeedX, angularSpeedY, angularSpeedZ;
+    [SerializeField] private float playerOffsetSpeed, playerOffsetJumpSpeed; // Speed to counteract the player weighing down on it
     [SerializeField] private float jumpCooldown;
     private float cooldownTimer;
     private bool jumpTrigger = false;
@@ -24,12 +25,19 @@ public class BlueBlock : PassiveBlockBase {
     }
 
     private void FixedUpdate() {
+        bool playerStandingOn = PlayerController.pc.IsStandingOn(gameObject);
+
         if(jumpTrigger) {
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, rb.velocity.z);
+            if(playerStandingOn)
+                rb.velocity += Vector3.up * playerOffsetJumpSpeed;
             rb.angularVelocity = new Vector3(angularSpeedX, angularSpeedY, angularSpeedZ);
             StartCoroutine(CooldownTimer());
             jumpTrigger = false;
         }
+
+        if(playerStandingOn)
+            rb.velocity += Vector3.up * playerOffsetSpeed;
     }
 
     #endregion
