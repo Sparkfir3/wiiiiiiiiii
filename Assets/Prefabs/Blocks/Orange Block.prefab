@@ -126,10 +126,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   held: 0
+  canBeHeld: 1
   releaseIfPointerOffScreen: 1
   restrictedBounds: 1
   restrictX: 0
   restrictY: 0
+  restrictZ: 1
   dragSpeedMultiplier: 3
   useGravity: 1
 --- !u!1001 &889174282776609568

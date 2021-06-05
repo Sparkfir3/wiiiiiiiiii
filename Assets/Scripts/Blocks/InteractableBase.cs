@@ -9,7 +9,7 @@ public abstract class InteractableBase : MonoBehaviour {
 
     [Header("Generic Block Settings")]
     public bool releaseIfPointerOffScreen;
-    [SerializeField] protected bool restrictedBounds, restrictX, restrictY;
+    [SerializeField] protected bool restrictedBounds, restrictX, restrictY, restrictZ;
 
     [Header("Bounds")]
     protected List<Transform> bounds = new List<Transform>();
@@ -29,6 +29,8 @@ public abstract class InteractableBase : MonoBehaviour {
             rb.constraints |= RigidbodyConstraints.FreezePositionX;
         if(restrictY)
             rb.constraints |= RigidbodyConstraints.FreezePositionY;
+        if(restrictZ)
+            rb.constraints |= RigidbodyConstraints.FreezePositionZ;
     }
 
     protected virtual void Start() {

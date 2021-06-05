@@ -129,6 +129,7 @@ MonoBehaviour:
   restrictedBounds: 0
   restrictX: 0
   restrictY: 0
+  restrictZ: 1
   activeOnStart: 1
   jumpSpeed: 6
   angularSpeedX: 0

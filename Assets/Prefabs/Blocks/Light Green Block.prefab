@@ -131,6 +131,7 @@ MonoBehaviour:
   restrictedBounds: 1
   restrictX: 0
   restrictY: 0
+  restrictZ: 1
   activeOnStart: 1
   moveSpeed: 10
   playerOffsetSpeed: 0.7
