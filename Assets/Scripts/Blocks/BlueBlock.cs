@@ -9,7 +9,7 @@ public class BlueBlock : PassiveBlockBase {
     [Header("Movement")]
     [SerializeField] private float jumpSpeed;
     [Range(-90, 90)] [SerializeField] private float angularSpeedX, angularSpeedY, angularSpeedZ;
-    [SerializeField] private float playerOffsetSpeed, playerOffsetJumpSpeed; // Speed to counteract the player weighing down on it
+    [SerializeField] private float playerOffsetJumpSpeed; // Speed to counteract the player weighing down on it
     [SerializeField] private float jumpCooldown;
     private float cooldownTimer;
     private bool jumpTrigger = false;
@@ -35,9 +35,6 @@ public class BlueBlock : PassiveBlockBase {
             StartCoroutine(CooldownTimer());
             jumpTrigger = false;
         }
-
-        if(playerStandingOn)
-            rb.velocity += Vector3.up * playerOffsetSpeed;
     }
 
     #endregion

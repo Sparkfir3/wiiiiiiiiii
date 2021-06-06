@@ -129,11 +129,12 @@ MonoBehaviour:
   restrictedBounds: 0
   restrictX: 0
   restrictY: 0
+  restrictZ: 0
   activeOnStart: 1
   jumpSpeed: 6
   angularSpeedX: 20
   angularSpeedY: 20
   angularSpeedZ: 20
   playerOffsetSpeed: 0.5
-  playerOffsetJumpSpeed: 1.3
+  playerOffsetJumpSpeed: 2
   jumpCooldown: 0.5
