@@ -1219,7 +1219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11439440, guid: cef0ed05e25663346b7279105b34332d, type: 3}
       propertyPath: mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11439440, guid: cef0ed05e25663346b7279105b34332d, type: 3}
       propertyPath: pointer
